@@ -1,0 +1,17 @@
+---
+
+- name: include distribution tasks
+  include_tasks: '{{ loop_distribution }}'
+  with_first_found:
+    - files:
+        - '{{ distribution }}-{{ distribution_version }}.yml'
+        - '{{ distribution }}-{{ distribution_major_version }}.yml'
+        - '{{ distribution }}.yml'
+        - '{{ ansible_os_family }}.yml'
+        - '{{ ansible_distribution }}.yml'
+        - '{{ ansible_system }}.yml'
+        - 'defaults.yml'
+      paths:
+        - 'distribution'
+  loop_control:
+    loop_var: loop_distribution
